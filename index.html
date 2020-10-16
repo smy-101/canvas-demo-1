@@ -15,23 +15,33 @@
         let ctx = canvas.getContext('2d')
         ctx.fillStyle = "black"
         ctx.strokeStyle = "none"
+        ctx.lineWidth = 20
+        ctx.lineCap = "round"
+
+
+        let last
         let painting = false
-        canvas.onmousedown = () =>{
+        canvas.onmousedown = (e) =>{
             painting =true
+            last = [e.clientX,e.clientY]
         }
         canvas.onmousemove = (e) =>{
             if (painting === true){
-                console.log(1);
-                ctx.beginPath();
-                ctx.arc(e.clientX,e.clientY,10, 0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.fill();
+                console.log(1)
+                drawLine(last[0],last[1],e.clientX,e.clientY)
+               last = [e.clientX,e.clientY]
             }else{
                 console.log('什么都不做')
             }
         }
         canvas.onmouseup = () =>{
             painting =false
+        }
+        function drawLine(x1,y1,x2,y2){
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
         }
     </script>
 </body>
